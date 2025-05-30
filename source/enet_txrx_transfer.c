@@ -35,7 +35,7 @@
 #define ENET_TXBD_NUM          (4)
 #define ENET_RXBUFF_SIZE       (ENET_FRAME_MAX_FRAMELEN)
 #define ENET_TXBUFF_SIZE       (ENET_FRAME_MAX_FRAMELEN)
-#define ENET_DATA_LENGTH       (1000)
+#define ENET_DATA_LENGTH       (64)
 #define ENET_TRANSMIT_DATA_NUM (20)
 #ifndef APP_ENET_BUFF_ALIGNMENT
 #define APP_ENET_BUFF_ALIGNMENT ENET_BUFF_ALIGNMENT
@@ -48,6 +48,10 @@
 #endif
 
 /* @TEST_ANCHOR */
+//
+#ifndef MACHINE_MAC
+#define MACHINE_MAC {0x36, 0xcd , 0x5c, 0x2b , 0x70 ,0x40}
+#endif
 
 #ifndef MAC_ADDRESS
 #define MAC_ADDRESS {0xd4, 0xbe, 0xd9, 0x45, 0x22, 0x60}
@@ -76,6 +80,9 @@ SDK_ALIGN(uint8_t g_txDataBuff[ENET_TXBD_NUM][SDK_SIZEALIGN(ENET_TXBUFF_SIZE, AP
 enet_handle_t g_handle;
 uint8_t g_frame[ENET_DATA_LENGTH + 14];
 
+uint8_t g_my_name[24] = "Vladimir Vargas Sanchez";
+
+uint8_t g_dest_addr[6] = MACHINE_MAC;
 /*! @brief The MAC address for ENET device. */
 uint8_t g_macAddr[6] = MAC_ADDRESS;
 
@@ -91,19 +98,23 @@ static void ENET_BuildBroadCastFrame(void)
 {
     uint32_t count  = 0;
     uint32_t length = ENET_DATA_LENGTH - 14;
-
+/*
     for (count = 0; count < 6U; count++)
     {
         g_frame[count] = 0xFFU;
-    }
+    }*/
+    memcpy(&g_frame[0], &g_dest_addr[0], 6U);
     memcpy(&g_frame[6], &g_macAddr[0], 6U);
     g_frame[12] = (length >> 8) & 0xFFU;
     g_frame[13] = length & 0xFFU;
 
-    for (count = 0; count < length; count++)
+    memcpy(&g_frame[14], &g_my_name[0], strlen(g_my_name));
+
+    for (count = 38; count < 64U; count++)
     {
-        g_frame[count + 14] = count % 0xFFU;
+            g_frame[count] = 0xFFU;
     }
+
 }
 
 /*!
