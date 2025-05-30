@@ -33,7 +33,7 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := REm_enet_txrx_transfer
+BUILD_ARTIFACT_NAME := Rem_P1
 BUILD_ARTIFACT_EXTENSION := axf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
@@ -45,24 +45,24 @@ all:
 	+@$(MAKE) --no-print-directory main-build && $(MAKE) --no-print-directory post-build
 
 # Main-build Target
-main-build: REm_enet_txrx_transfer.axf
+main-build: Rem_P1.axf
 
 # Tool invocations
-REm_enet_txrx_transfer.axf: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
+Rem_P1.axf: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -Xlinker -Map="REm_enet_txrx_transfer.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T REm_enet_txrx_transfer_Debug.ld -o "REm_enet_txrx_transfer.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -Xlinker -Map="Rem_P1.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T Rem_P1_Debug.ld -o "Rem_P1.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) REm_enet_txrx_transfer.axf
+	-$(RM) Rem_P1.axf
 	-@echo ' '
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "REm_enet_txrx_transfer.axf"; # arm-none-eabi-objcopy -v -O binary "REm_enet_txrx_transfer.axf" "REm_enet_txrx_transfer.bin" ; # checksum -p MK66FN2M0xxx18 -d "REm_enet_txrx_transfer.bin";
+	-arm-none-eabi-size "Rem_P1.axf"; # arm-none-eabi-objcopy -v -O binary "Rem_P1.axf" "Rem_P1.bin" ; # checksum -p MK66FN2M0xxx18 -d "Rem_P1.bin";
 	-@echo ' '
 
 .PHONY: all clean dependents main-build post-build

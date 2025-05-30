@@ -1,0 +1,11 @@
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_clock.h:777:20:CLOCK_SetRmii0Clock	16	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_enet.h:1187:20:ENET_ActiveRead	16	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\phy/fsl_phy.h:147:24:PHY_Init	16	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\phy/fsl_phy.h:191:24:PHY_GetAutoNegotiationStatus	16	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\phy/fsl_phy.h:206:24:PHY_GetLinkStatus	16	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\phy/fsl_phy.h:223:24:PHY_GetLinkSpeedDuplex	24	static
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_sysmpu.h:268:20:SYSMPU_Enable	16	static
+../source/ethernet/ethernet.c:36:6:ENET_InitDriver	112	static
+../source/ethernet/ethernet.c:96:6:ENET_BuildFrame	24	static
+../source/ethernet/ethernet.c:108:6:ENET_BuildFrame_frase	32	static
+../source/ethernet/ethernet.c:121:6:ENET_SendNext	24	static

@@ -2,28 +2,28 @@ component/lists/fsl_component_generic_list.o \
  component/lists/fsl_component_generic_list.d: \
  ../component/lists/fsl_component_generic_list.c \
  ../component/lists/fsl_component_generic_list.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/fsl_device_registers.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/MK66F18.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/core_cm4.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_version.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_compiler.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_gcc.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/system_MK66F18.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/MK66F18_features.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common_arm.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_clock.h \
- /Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common.h
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/fsl_device_registers.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/MK66F18.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/core_cm4.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_version.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_compiler.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_gcc.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/system_MK66F18.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/MK66F18_features.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common_arm.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_clock.h \
+ C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common.h
 ../component/lists/fsl_component_generic_list.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/fsl_device_registers.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/MK66F18.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/core_cm4.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_version.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_compiler.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/CMSIS/cmsis_gcc.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/system_MK66F18.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/device/MK66F18_features.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common_arm.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_clock.h:
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/RedesK66/REm_enet_txrx_transfer/drivers/fsl_common.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/fsl_device_registers.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/MK66F18.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/core_cm4.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_version.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_compiler.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\CMSIS/cmsis_gcc.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/system_MK66F18.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\device/MK66F18_features.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common_arm.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_clock.h:
+C:\Users\vonta\OneDrive\Documentos\Desarrollo\RedesEm\PracticasK66\Rem_P1\drivers/fsl_common.h:
