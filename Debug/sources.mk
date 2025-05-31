@@ -21,8 +21,8 @@ device \
 drivers \
 mdio \
 phy \
-source \
 source/ethernet \
+source \
 startup \
 utilities \
 

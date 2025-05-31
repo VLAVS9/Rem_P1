@@ -1,28 +1,33 @@
 /*
  * main.h
- *
- *      Author: Vladimir Elian Andre
+ *      Authors:
+ *      Gutiérrez Alvarez, Elián Ricardo
+ *      Vargas Sánchez, Miguel Vladimir
+ *      Muñoz Amézquita, André Emiliano
  */
 
-#include "ethernet/ethernet.h"
-#include "fsl_debug_console.h"
+#include <ethernet/ethernet.h>
+#include <fsl_debug_console.h>
+#include <bits.h>
 
-uint8_t active  = 1;
-uint8_t counter  = 0;
-uint8_t frase1[]  = "No todo lo que es oro reluce";
+uint8_t active  = TRUE;
+uint8_t messagesCounter  = bit_0;
+uint8_t numberOfMessages = 10;
+
+uint8_t frase1[]  = "No todo lo que es oro reluce...";
+uint8_t frase2[]  = "No temas a la oscuridad...";
 
 int main(void) {
-    ENET_InitDriver();
-    //ENET_BuildFrame();
-    ENET_BuildFrame_frase(frase1);
+	ethernet_init();
+	ethernet_buildFrame(frase1);
 
-    while(active) {
-		if(counter >= 5){
-			PRINTF("Done sending %d frames\r\n", 5);
-			active = 0;
+    while(TRUE == active) {
+		if(messagesCounter >= numberOfMessages){
+			PRINTF("Done sending %d frames\r\n", numberOfMessages);
+			active = FALSE;
 		}else {
-			ENET_SendNext();
-			counter++;
+			ethernet_send();
+			messagesCounter ++;
 		}
     }
     return 0;
