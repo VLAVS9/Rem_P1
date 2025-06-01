@@ -97,7 +97,7 @@ void ethernet_init(void) {
     sentCount = 0;
 }
 // Agregamos 4 bytes de check parra el paquete
-static uint32_t crc32_bitwise(const uint8_t *data, size_t len) {
+uint32_t crc32_bitwise(const uint8_t *data, size_t len) {
     uint32_t crc = 0xFFFFFFFF;
     for (size_t i = 0; i < len; i++) {
         crc ^= data[i];
@@ -165,25 +165,17 @@ bool ethernet_receive(ethernet_frame_t *frame) {
     frame->length = 0;
     frame->payload_len = 0;
 
-    // 1. Verificar si hay frames disponibles
     uint32_t length;
     status_t status = ENET_GetRxFrameSize(&gHandle, &length, 0);
 
-    if (status != kStatus_Success || length == 0) {
-        // PRINTF("No hay frames disponibles o error al obtener tamano (%d)\r\n", status); // Descomentar para depuración
-        return false;
-    }
-
     PRINTF("Se detectó un frame de tamaño: %u bytes.\r\n", length);
 
-    // 2. Reservar memoria para el frame
     frame->buffer = (uint8_t *)malloc(length);
     if (frame->buffer == NULL) {
         PRINTF("Error: No se pudo asignar memoria para el frame\r\n");
         return false;
     }
 
-    // 3. Leer el frame
     uint32_t timestamp;
     status = ENET_ReadFrame(EXAMPLE_ENET, &gHandle, frame->buffer, length, 0, &timestamp);
 
@@ -195,14 +187,10 @@ bool ethernet_receive(ethernet_frame_t *frame) {
 
     frame->length = length;
 
-    // 4. Extraer longitud del payload (bytes 12-13)
-    // Usando el formato Big Endian actual para depuración.
-    // Recuerda que la práctica especifica Little Endian para "todos los datos que requieran mas de un bit"[cite: 2].
     frame->payload_len = (frame->buffer[12] << 8) | frame->buffer[13];
 
     PRINTF("Frame recibido - Longitud Total: %u, Longitud Payload (segun campo): %u\r\n", frame->length, frame->payload_len);
 
-    // Imprimir el contenido completo del buffer recibido para depuración
     PRINTF("Contenido crudo del frame (primeros %d bytes):\r\n", frame->length > 64 ? 64 : frame->length);
     for(int i = 0; i < (frame->length > 64 ? 64 : frame->length); i++) {
         PRINTF("%02X ", frame->buffer[i]);
