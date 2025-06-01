@@ -29,6 +29,34 @@ int main(void) {
 			ethernet_send();
 			messagesCounter ++;
 		}
+
+		 ethernet_frame_t received_frame = {0};
+
+		        if (ethernet_receive(&received_frame)) {
+
+		            if (received_frame.length >= 14) {
+		                uint8_t *payload_start = received_frame.buffer + 14;
+		                size_t actual_payload_len = received_frame.payload_len;
+
+		                // Imprimimos los caracteres ASCII directamente.
+		                // Aseguramos que no excedemos el tamaño real del buffer para evitar lecturas fuera de límites.
+		                size_t print_len = (actual_payload_len < (received_frame.length - 14)) ? actual_payload_len : (received_frame.length - 14);
+
+		                PRINTF("Mensaje: \"");
+		                for (size_t i = 0; i < print_len; i++) {
+		                    if (payload_start[i] >= 32 && payload_start[i] <= 126) { // Caracteres ASCII imprimibles
+		                        PRINTF("%c", payload_start[i]);
+		                    } else {
+		                        PRINTF("."); // Imprimir un punto para caracteres no imprimibles
+		                    }
+		                }
+		                PRINTF("\"\r\n");
+		            }
+		            free(received_frame.buffer); //liberar la memoria
+		        }
+		        // Opcional: Pequeña espera para no consumir CPU en exceso
+		        // for(volatile int i=0; i<10000; i++); // Descomentar si el loop es demasiado rápido
+
     }
     return 0;
 }
