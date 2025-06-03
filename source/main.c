@@ -6,6 +6,12 @@
  *      Muñoz Amézquita, André Emiliano
  */
 
+#include <stdio.h>
+#include <gpio/gpio.h>
+#include <nvic/nvic.h>
+#include <uart/menu.h>
+#include <uart/uart.h>
+
 #include <ethernet/ethernet.h>
 #include <fsl_debug_console.h>
 #include <bits.h>
@@ -14,7 +20,7 @@ uint8_t active  = TRUE;
 uint8_t messagesCounter  = bit_0;
 uint8_t numberOfMessages = 10;
 
-uint8_t frase1[]   = "No todo lo que es oro reluce...";
+/*uint8_t frase1[]   = "No todo lo que es oro reluce...";
 uint8_t frase2[]   = "Es peligroso...";
 uint8_t frase3[]   = "Aún en la oscuridad...";
 uint8_t frase4[]   = "Un mago nunca llega tarde...";
@@ -29,14 +35,29 @@ uint8_t frase12[]  = "No se puede...";
 uint8_t frase13[]  = "El coraje se encuentra...";
 uint8_t frase14[]  = "Y sobre todo...";
 uint8_t frase15[]  = "No todos los tesoros...";
-uint8_t frase16[]  = "De las cenizas, un fuego...";
+uint8_t frase16[]  = "De las cenizas, un fuego...";*/
 
 int main(void) {
-	ethernet_init();
-	ethernet_buildFrame(frase16);
+
+	// Inicialización de periféricos
+	GPIO_init();
+	LED_init();
+	SW_init();
+	UART0_init();
+
+	//ethernet_init();
+	//ethernet_buildFrame(frase16);
+
+    // Configuración de prioridades de interrupción
+    NVIC_set_basepri_threshold(PRIORITY_2);
+    NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_1);
+    NVIC_global_enable_interrupts;
 
     while(TRUE == active) {
-		if(messagesCounter >= numberOfMessages){
+
+    	menu_mostrar();  // Control central del menú interactivo
+
+		/*if(messagesCounter >= numberOfMessages){
 			PRINTF("Done sending %d frames\r\n", numberOfMessages);
 			active = FALSE;
 		}else {
@@ -64,7 +85,7 @@ int main(void) {
 				PRINTF("\"\r\n");
 			}
 			free(received_frame.buffer); //liberar la memoria
-		}
+		}*/
     }
     return 0;
 }

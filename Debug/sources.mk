@@ -22,7 +22,10 @@ drivers \
 mdio \
 phy \
 source/ethernet \
+source/gpio \
 source \
+source/nvic \
+source/uart \
 startup \
 utilities \
 
