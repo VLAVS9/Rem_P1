@@ -48,6 +48,9 @@ int main(void) {
 	//ethernet_init();
 	//ethernet_buildFrame(frase16);
 
+    // Inicialización de callbacks
+    // UART_callback_init(UART_0, menu_mostrar);
+
     // Configuración de prioridades de interrupción
     NVIC_set_basepri_threshold(PRIORITY_2);
     NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_1);

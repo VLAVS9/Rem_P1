@@ -23,7 +23,9 @@ uint8_t return_state      = FALSE;
 /* Variables auxiliares */
 uint8_t tecla   = bit_0;
 uint8_t numero  = bit_0;
-uint8_t msg_num = bit_0;
+
+uint8_t msg_num   = bit_0;
+uint8_t *msg_text = NULL;
 
 /*
  * Muestra el menú solo si selection_state está activo.
@@ -88,7 +90,8 @@ void menu_interaction(void) {
         else if ((RETURN == tecla) && (TRUE == return_state)) {
             if ((1 <= numero) && (16 >= numero)) {
                 // Número válido, continuar con siguiente menú.
-            	msg_num 		  = numero - 1;
+            	msg_num  = numero - 1;
+            	msg_text = terminal_get_mensaje(msg_num);
 
                 selection_state   = TRUE;
                 menu_state        = bit_1;

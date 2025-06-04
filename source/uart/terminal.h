@@ -18,4 +18,8 @@ void terminal_print_menu(void);
 void terminal_print_mensaje(uint8_t index);
 void terminal_print_respuesta(uint8_t index);
 
+// Nuevas funciones para obtener punteros a mensajes y respuestas
+uint8_t* terminal_get_mensaje(uint8_t index);
+uint8_t* terminal_get_respuesta(uint8_t index);
+
 #endif /* TERMINAL_H_ */

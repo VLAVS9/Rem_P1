@@ -16,6 +16,8 @@
 #define ESC     0x1B
 #define RETURN  0x0D
 
+extern uint8_t* msg_text;
+
 void menu_mostrar(void);
 void menu_interaction(void);
 
