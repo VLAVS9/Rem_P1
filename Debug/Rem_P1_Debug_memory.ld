@@ -2,11 +2,10 @@
  * GENERATED FILE - DO NOT EDIT
  * Copyright 2008-2013 Code Red Technologies Ltd,
  * Copyright 2013-2025 NXP
- * SPDX-License-Identifier: BSD-3-Clause
  * Generated linker script file for MK66FN2M0xxx18
  * Created from memory.ldt by FMCreateLinkMemory
  * Using Freemarker v2.3.30
- * MCUXpresso IDE v24.12 [Build 148] [2025-01-10] on Jun 3, 2025, 7:04:46 PM
+ * MCUXpresso IDE v11.9.0 [Build 2144] [2024-01-05] on 8 jun. 2025 19:44:53
  */
 
 MEMORY

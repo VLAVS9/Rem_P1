@@ -30,22 +30,22 @@ void terminal_init(void) {
 }
 
 /* ----- Mensajes ----- */
-uint8_t mensaje_1[]  = "No todo lo que es oro reluce...\r\n";
-uint8_t mensaje_2[]  = "Aún en la oscuridad...\r\n";
-uint8_t mensaje_3[]  = "¿Qué es la vida?\r\n";
-uint8_t mensaje_4[]  = "No temas a la oscuridad...\r\n";
-uint8_t mensaje_5[]  = "Hasta los más pequeños...\r\n";
-uint8_t mensaje_6[]  = "No digas que el sol se ha puesto...\r\n";
-uint8_t mensaje_7[]  = "El coraje se encuentra...\r\n";
-uint8_t mensaje_8[]  = "No todos los tesoros...\r\n";
-uint8_t mensaje_9[]  = "Es peligroso...\r\n";
-uint8_t mensaje_10[] = "Un mago nunca llega tarde...\r\n";
-uint8_t mensaje_11[] = "Aún hay esperanza...\r\n";
-uint8_t mensaje_12[] = "El mundo está cambiando...\r\n";
-uint8_t mensaje_13[] = "Las raíces profundas...\r\n";
-uint8_t mensaje_14[] = "No se puede...\r\n";
-uint8_t mensaje_15[] = "Y sobre todo...\r\n";
-uint8_t mensaje_16[] = "De las cenizas, un fuego...\r\n";
+uint8_t mensaje_1[]   = "No todo lo que es oro reluce...";
+uint8_t mensaje_2[]   = "Es peligroso...";
+uint8_t mensaje_3[]   = "Aún en la oscuridad...";
+uint8_t mensaje_4[]   = "Un mago nunca llega tarde...";
+uint8_t mensaje_5[]   = "¿Qué es la vida?";
+uint8_t mensaje_6[]   = "Aún hay esperanza...";
+uint8_t mensaje_7[]   = "No temas a la oscuridad...";
+uint8_t mensaje_8[]   = "El mundo esta cambiando...";
+uint8_t mensaje_9[]   = "Hasta los más pequeños...";
+uint8_t mensaje_10[]  = "Las raíces profundas...";
+uint8_t mensaje_11[]  = "No digas que el sol se ha puesto...";
+uint8_t mensaje_12[]  = "No se puede...";
+uint8_t mensaje_13[]  = "El coraje se encuentra...";
+uint8_t mensaje_14[]  = "Y sobre todo...";
+uint8_t mensaje_15[]  = "No todos los tesoros...";
+uint8_t mensaje_16[]  = "De las cenizas, un fuego...";
 
 uint8_t *mensajes[16] = {
     mensaje_1, mensaje_2, mensaje_3, mensaje_4,
@@ -150,7 +150,12 @@ void terminal_print_mensaje(uint8_t index) {
         UART_WriteBlocking(UART0, (uint8_t *)enumerado, strlen(enumerado));
 
         UART_WriteBlocking(UART0, mensajes[index], mensaje_lens[index]);
+
+        ethernet_buildFrame(mensajes[index]);
+        ethernet_send();
     }
+
+
 }
 
 /* Imprime una respuesta individual */

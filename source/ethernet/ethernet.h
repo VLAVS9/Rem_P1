@@ -18,7 +18,9 @@ uint32_t crc32_bitwise(const uint8_t *data, size_t len);
 void ethernet_init(void);
 void ethernet_send(void);
 void ethernet_buildFrame(uint8_t *string);
-bool ethernet_receive(ethernet_frame_t *frame);
+uint8_t ethernet_receive(ethernet_frame_t *frame) ;
+uint8_t *ethernet_receive2(uint32_t *out_len);
+
 
 
 #endif // ETHERNET_H

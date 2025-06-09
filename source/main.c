@@ -40,6 +40,7 @@ uint8_t frase16[]  = "De las cenizas, un fuego...";*/
 int main(void) {
 
 	// Inicialización de periféricos
+	ethernet_init();
 	GPIO_init();
 	LED_init();
 	SW_init();
@@ -49,46 +50,24 @@ int main(void) {
 	//ethernet_buildFrame(frase16);
 
     // Inicialización de callbacks
-    // UART_callback_init(UART_0, menu_mostrar);
+    UART_callback_init(UART_0, menu_mostrar);
 
     // Configuración de prioridades de interrupción
     NVIC_set_basepri_threshold(PRIORITY_2);
     NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_1);
     NVIC_global_enable_interrupts;
 
-    while(TRUE == active) {
+    menu_mostrar();
 
-    	menu_mostrar();  // Control central del menú interactivo
+    while(1){
+    	uint32_t len;
+    	        uint8_t *cifrado = ethernet_receive(&len);
+    	        if (cifrado) {
 
-		/*if(messagesCounter >= numberOfMessages){
-			PRINTF("Done sending %d frames\r\n", numberOfMessages);
-			active = FALSE;
-		}else {
-			ethernet_send();
-			messagesCounter ++;
-		}
-
-		ethernet_frame_t received_frame = {0};
-
-		if (ethernet_receive(&received_frame)) {
-
-			if (received_frame.length >= 14) {
-				uint8_t *payload_start = received_frame.buffer + 14;
-				size_t actual_payload_len = received_frame.payload_len;
-				size_t print_len = (actual_payload_len < (received_frame.length - 14)) ? actual_payload_len : (received_frame.length - 14);
-
-				PRINTF("Mensaje: \"");
-				for (size_t i = 0; i < print_len; i++) {
-					if (payload_start[i] >= 32 && payload_start[i] <= 126) { // Caracteres ASCII imprimibles
-						PRINTF("%c", payload_start[i]);
-					} else {
-						PRINTF("."); // Imprimir un punto para caracteres no imprimibles
-					}
-				}
-				PRINTF("\"\r\n");
-			}
-			free(received_frame.buffer); //liberar la memoria
-		}*/
+    	            free(cifrado);
+    	            break;
+    	        }
     }
+
     return 0;
 }

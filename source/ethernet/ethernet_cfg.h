@@ -25,6 +25,9 @@
 #define PHY_STABILITY_DELAY_US    0U
 #endif
 
+#define AES_BLOCK_SIZE     16
+#define ENET_HEADER_LEN    14
+
 #define ENET_RXBD_NUM           4
 #define ENET_TXBD_NUM           4
 #define ENET_FRAME_LEN          64

@@ -46,6 +46,8 @@ void menu_mostrar(void) {
             case bit_1:
             	terminal_print_mensaje(msg_num);
             	terminal_print_menu();
+
+
             	menu_state        = bit_0;
                 interaction_state = bit_0;
                 break;
@@ -58,6 +60,7 @@ void menu_mostrar(void) {
     }
 
     menu_interaction();
+
 }
 
 /*

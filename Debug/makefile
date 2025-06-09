@@ -14,6 +14,7 @@ RM := rm -rf
 -include source/nvic/subdir.mk
 -include source/gpio/subdir.mk
 -include source/ethernet/subdir.mk
+-include source/aes/subdir.mk
 -include source/subdir.mk
 -include phy/subdir.mk
 -include mdio/subdir.mk

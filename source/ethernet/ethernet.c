@@ -19,6 +19,10 @@
 #include "fsl_sysmpu.h"
 #include <bits.h>
 
+#ifndef AES_BLOCKLEN
+#define AES_BLOCKLEN 16
+#endif
+
 // Descriptores y buffers (alineados y no cacheables)
 AT_NONCACHEABLE_SECTION_ALIGN(enet_rx_bd_struct_t rxBd[ENET_RXBD_NUM], ENET_BUFF_ALIGNMENT);
 AT_NONCACHEABLE_SECTION_ALIGN(enet_tx_bd_struct_t txBd[ENET_TXBD_NUM], ENET_BUFF_ALIGNMENT);
@@ -26,18 +30,26 @@ SDK_ALIGN(uint8_t rxBuff[ENET_RXBD_NUM][SDK_SIZEALIGN(ENET_FRAME_MAX_FRAMELEN, A
 SDK_ALIGN(uint8_t txBuff[ENET_TXBD_NUM][SDK_SIZEALIGN(ENET_FRAME_MAX_FRAMELEN, APP_ENET_BUFF_ALIGNMENT)], APP_ENET_BUFF_ALIGNMENT);
 
 // Datos de la trama  04-7C-16-DF-73-D8
-static const uint8_t destAddr[6] = {0x04,0x7C,0x16,0xDF,0x73,0xD8};
+//macbook en 11 00:90:9a:9d:a3:4d
+static const uint8_t destAddr[6] = {0x00,0x90,0x9a,0x9d,0xa3,0x4d};
 static const uint8_t srcAddr [6] = {0xD4,0xBE,0xD9,0x45,0x22,0x60};
 static const char    nameStr[]  = "Vladimir Vargas Sanchez";
 static uint8_t       frameBuf[ENET_FRAME_LEN + 14];
 
+// claves aes
+static const uint8_t aes_key[16] = {
+    'M','y','1','6','b','y','t','e','K','e','y','0','0','0','0','0'
+};
+static const uint8_t aes_iv[16] = {
+    'M','y','1','6','b','y','t','e','I','V','0','0','0','0','0','0'
+};
 // Manejadores
 static enet_handle_t gHandle;
 static mdio_handle_t mdioHandle;
 static phy_handle_t  phyHandle;
 static uint32_t      sentCount;
 
-// Inicializa hardware, PHY y ENET
+// Inicializa hardware enet
 void ethernet_init(void) {
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
@@ -96,109 +108,126 @@ void ethernet_init(void) {
     ENET_ActiveRead(EXAMPLE_ENET);
     sentCount = 0;
 }
-// Agregamos 4 bytes de check parra el paquete
-uint32_t crc32_bitwise(const uint8_t *data, size_t len) {
-    uint32_t crc = 0xFFFFFFFF;
-    for (size_t i = 0; i < len; i++) {
-        crc ^= data[i];
-        for (int b = 0; b < 8; b++) {
-            if (crc & 1) {
-                crc = (crc >> 1) ^ 0xEDB88320;
-            } else {
-                crc >>= 1;
-            }
-        }
-    }
-    return ~crc;
-}
 // Construye trama de broadcast
-void ethernet_buildFrame(uint8_t *string) {
-    uint32_t payloadLen = ENET_FRAME_LEN - 14;
-    size_t texto_len = strlen((char *)string);
-    if (texto_len > payloadLen - 4) {
-        texto_len = payloadLen - 4;  // Reservar 4 bytes para CRC32
+void ethernet_buildFrame(uint8_t *string)
+{
+    // 1) Determinar longitud del texto plano
+    size_t data_len = strlen((char *)string);
+
+    // 2) Calcular longitud del ciphertext (múltiplo de 16)
+    size_t padded_len = ((data_len / AES_BLOCKLEN) + 1) * AES_BLOCKLEN;
+
+    // 3) Reservar buffer temporal para ciphertext
+    uint8_t *cipher = (uint8_t *)malloc(padded_len);
+    if (!cipher) {
+        return;  // sin memoria, abortar
     }
 
-    // 1) Copiar MAC destino y origen
+    // 4) Cifrar con AES-CBC+PKCS#7
+    aes_encrypt(string, data_len, aes_key, aes_iv, cipher, &padded_len);
+
+    // 5) Construir encabezado Ethernet en frameBuf[0..13]
     memcpy(frameBuf + 0, destAddr, 6);
     memcpy(frameBuf + 6, srcAddr, 6);
+    frameBuf[12] = (uint8_t)((ENET_FRAME_LEN >> 8) & 0xFF);
+    frameBuf[13] = (uint8_t)( ENET_FRAME_LEN       & 0xFF);
 
-    // 2) Escribir "Length" (payloadLen) en big-endian en bytes 12-13
-    frameBuf[12] = (uint8_t)((payloadLen >> 8) & 0xFF);
-    frameBuf[13] = (uint8_t)( payloadLen       & 0xFF);
+    // 6) Copiar ciphertext en offset 14
+    memcpy(frameBuf + 14, cipher, padded_len);
 
-    // 3) Copiar el texto plano en offset 14
-    memcpy(frameBuf + 14, string, texto_len);
-
-    // 4) Calcular CRC32 sobre SOLO los bytes del texto
-    uint32_t crc = crc32_bitwise(frameBuf + 14, texto_len);
-
-    // 5) Escribir CRC32 (little-endian) justo después del texto
-    size_t crc_offset = 14 + texto_len;
-    frameBuf[crc_offset + 0] = (uint8_t)( crc        & 0xFF);
-    frameBuf[crc_offset + 1] = (uint8_t)((crc >> 8)  & 0xFF);
-    frameBuf[crc_offset + 2] = (uint8_t)((crc >> 16) & 0xFF);
-    frameBuf[crc_offset + 3] = (uint8_t)((crc >> 24) & 0xFF);
-
-    // 6) Rellenar con 0xFF desde el final del CRC hasta completar payloadLen bytes
-    size_t fill_start = crc_offset + 4;
-    size_t fill_end   = 14 + payloadLen;  // equivale a ENET_FRAME_LEN
-    for (size_t i = fill_start; i < fill_end; ++i) {
+    // 7) Rellenar con 0xFF hasta completar ENET_FRAME_LEN bytes de payload
+    for (size_t i = 14 + padded_len; i < 14 + ENET_FRAME_LEN; i++) {
         frameBuf[i] = 0xFF;
     }
+
+    free(cipher);
 }
+
 // Envía el paquete
 void ethernet_send(void) {
-    //if(sentCount >= ENET_TX_COUNT) return false;
+
     if(ENET_SendFrame(EXAMPLE_ENET, &gHandle, frameBuf, ENET_FRAME_LEN, 0, false, NULL) == kStatus_Success) {
         PRINTF("Frame transmitted\n");
     }
-
-    //return false;
 }
-
-bool ethernet_receive(ethernet_frame_t *frame) {
-    if (frame == NULL) return false;
-
-    // Inicializar estructura
-    frame->buffer = NULL;
-    frame->length = 0;
-    frame->payload_len = 0;
-
-    uint32_t length;
-    status_t status = ENET_GetRxFrameSize(&gHandle, &length, 0);
-
-    PRINTF("Se detectó un frame de tamaño: %u bytes.\r\n", length);
-
-    frame->buffer = (uint8_t *)malloc(length);
-    if (frame->buffer == NULL) {
-        PRINTF("Error: No se pudo asignar memoria para el frame\r\n");
+//recibir paquete
+uint8_t ethernet_receive(ethernet_frame_t *frame) {
+    if (frame == NULL) {
         return false;
     }
 
-    uint32_t timestamp;
-    status = ENET_ReadFrame(EXAMPLE_ENET, &gHandle, frame->buffer, length, 0, &timestamp);
+    // 1) Inicializar estructura
+    frame->buffer      = NULL;
+    frame->length      = 0;
+    frame->payload_len = 0;
 
-    if (status != kStatus_Success) {
-        PRINTF("Error al leer el frame (%d).\r\n", status);
+    // 2) Leer tamaño total de la trama
+    uint32_t total_len;
+    if (ENET_GetRxFrameSize(&gHandle, &total_len, 0) != kStatus_Success || total_len == 0) {
+        return false;
+    }
+
+    // 3) Reservar buffer para toda la trama
+    frame->buffer = malloc(total_len);
+    if (!frame->buffer) {
+        return false;
+    }
+
+    // 4) Agarra la trama completa
+    uint32_t timestamp;
+    if (ENET_ReadFrame(EXAMPLE_ENET, &gHandle,
+                       frame->buffer, total_len, 0, &timestamp) != kStatus_Success) {
         free(frame->buffer);
         return false;
     }
 
-    frame->length = length;
-
-    frame->payload_len = (frame->buffer[12] << 8) | frame->buffer[13];
-
-    PRINTF("Frame recibido - Longitud Total: %u, Longitud Payload (segun campo): %u\r\n", frame->length, frame->payload_len);
-
-    PRINTF("Contenido crudo del frame (primeros %d bytes):\r\n", frame->length > 64 ? 64 : frame->length);
-    for(int i = 0; i < (frame->length > 64 ? 64 : frame->length); i++) {
-        PRINTF("%02X ", frame->buffer[i]);
-        if ((i + 1) % 16 == 0) { // Nueva línea cada 16 bytes
-            PRINTF("\r\n");
+    // 5) filtrar MAC destino en srcAddr para solo acpetar paquetes, si no return
+    for (uint32_t i = 0; i < 6; i++) {
+        if (frame->buffer[i] != srcAddr[i]) {
+            free(frame->buffer);
+            return false;
         }
     }
-    PRINTF("\r\n");
+
+    // 6) Recortar los bytes del tamaño
+    uint16_t payload_len = (frame->buffer[12] << 8) | frame->buffer[13];
+    uint32_t offset      = 14;
+    if (offset + payload_len > total_len) {
+        free(frame->buffer);
+        return false;
+    }
+
+    // 7) Copiar solo el ciphertext + padding 0xFF
+    uint8_t *blob = malloc(payload_len);
+    memcpy(blob, frame->buffer + offset, payload_len);
+    free(frame->buffer);
+
+    // 8) Recortar  0xFF
+    int32_t j = payload_len - 1;
+    while (j >= 0 && blob[j] == 0xFF) {
+        j--;
+    }
+    if (j < 0) {
+        free(blob);
+        return false;
+    }
+    uint32_t cipher_len = j + 1;
+
+
+    // 9) Desencriptado
+    uint8_t *decrypted = malloc(cipher_len + 1);
+    size_t  dec_len    = 0;
+    aes_decrypt(blob, cipher_len, aes_key, aes_iv, decrypted, &dec_len);
+    free(blob);
+
+
+    // 10) Mostrar como texto, respetando la longitud real
+    PRINTF("Mensaje desencriptado: %.*s\r\n", (int)dec_len, decrypted);
+
+    // 11)
+    frame->buffer      = decrypted;
+    frame->length      = dec_len;
+    frame->payload_len = dec_len;
 
     return true;
 }

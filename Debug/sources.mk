@@ -21,6 +21,7 @@ device \
 drivers \
 mdio \
 phy \
+source/aes \
 source/ethernet \
 source/gpio \
 source \
