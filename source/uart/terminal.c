@@ -159,16 +159,16 @@ void terminal_print_mensaje(uint8_t index) {
 }
 
 /* Imprime una respuesta individual */
-void terminal_print_respuesta(uint8_t index) {
+void terminal_print_respuesta(uint8_t *string) {
     uint8_t g_vt100_xy[20];
     uint8_t x = 10;
-    uint8_t y = 10;
+    uint8_t y = 32;
 
-    if (index < 16) {
+
         set_vt100_position(g_vt100_xy, x, y);
         UART_WriteBlocking(UART0, g_vt100_xy, sizeof(g_vt100_xy));
-        UART_WriteBlocking(UART0, respuestas[index], respuesta_lens[index]);
-    }
+        UART_WriteBlocking(UART0, string, strlen(string));
+
 }
 
 uint8_t* terminal_get_mensaje(uint8_t index) {

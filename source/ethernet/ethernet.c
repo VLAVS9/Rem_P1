@@ -224,6 +224,7 @@ uint8_t ethernet_receive(ethernet_frame_t *frame) {
     // 10) Mostrar como texto, respetando la longitud real
     PRINTF("Mensaje desencriptado: %.*s\r\n", (int)dec_len, decrypted);
 
+    terminal_print_respuesta(decrypted);
     // 11)
     frame->buffer      = decrypted;
     frame->length      = dec_len;
