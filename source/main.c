@@ -20,22 +20,7 @@ uint8_t active  = TRUE;
 uint8_t messagesCounter  = bit_0;
 uint8_t numberOfMessages = 10;
 
-/*uint8_t frase1[]   = "No todo lo que es oro reluce...";
-uint8_t frase2[]   = "Es peligroso...";
-uint8_t frase3[]   = "Aún en la oscuridad...";
-uint8_t frase4[]   = "Un mago nunca llega tarde...";
-uint8_t frase5[]   = "¿Qué es la vida?";
-uint8_t frase6[]   = "Aún hay esperanza...";
-uint8_t frase7[]   = "No temas a la oscuridad...";
-uint8_t frase8[]   = "El mundo esta cambiando...";
-uint8_t frase9[]   = "Hasta los más pequeños...";
-uint8_t frase10[]  = "Las raíces profundas...";
-uint8_t frase11[]  = "No digas que el sol se ha puesto...";
-uint8_t frase12[]  = "No se puede...";
-uint8_t frase13[]  = "El coraje se encuentra...";
-uint8_t frase14[]  = "Y sobre todo...";
-uint8_t frase15[]  = "No todos los tesoros...";
-uint8_t frase16[]  = "De las cenizas, un fuego...";*/
+
 
 int main(void) {
 
@@ -45,9 +30,6 @@ int main(void) {
 	LED_init();
 	SW_init();
 	UART0_init();
-
-	//ethernet_init();
-	//ethernet_buildFrame(frase16);
 
     // Inicialización de callbacks
     UART_callback_init(UART_0, menu_mostrar);
@@ -61,10 +43,10 @@ int main(void) {
 
     while(1){
     	uint32_t len;
-    	        uint8_t *cifrado = ethernet_receive(&len);
-    	        if (cifrado) {
+    	        uint8_t *respuesta = ethernet_receive(&len);
+    	        if (respuesta) {
 
-    	            free(cifrado);
+    	            free(respuesta);
     	            break;
     	        }
     }
