@@ -1,10 +1,10 @@
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/drivers/fsl_clock.h:777:20:CLOCK_SetRmii0Clock	16	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/drivers/fsl_enet.h:1187:20:ENET_ActiveRead	16	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/phy/fsl_phy.h:147:24:PHY_Init	16	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/phy/fsl_phy.h:191:24:PHY_GetAutoNegotiationStatus	16	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/phy/fsl_phy.h:206:24:PHY_GetLinkStatus	16	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/phy/fsl_phy.h:223:24:PHY_GetLinkSpeedDuplex	24	static
-/Users/miguelvladimirvargassanchez/Documents/UNI/REDES/PracWorkSpace/Rem_P1/drivers/fsl_sysmpu.h:268:20:SYSMPU_Enable	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/drivers/fsl_clock.h:777:20:CLOCK_SetRmii0Clock	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/drivers/fsl_enet.h:1187:20:ENET_ActiveRead	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/phy/fsl_phy.h:147:24:PHY_Init	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/phy/fsl_phy.h:191:24:PHY_GetAutoNegotiationStatus	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/phy/fsl_phy.h:206:24:PHY_GetLinkStatus	16	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/phy/fsl_phy.h:223:24:PHY_GetLinkSpeedDuplex	24	static
+/Users/elian/Documents/MCUXpresso/Examples/Rem_P1/drivers/fsl_sysmpu.h:268:20:SYSMPU_Enable	16	static
 ../source/ethernet/ethernet.c:53:6:ethernet_init	112	static
 ../source/ethernet/ethernet.c:112:6:ethernet_buildFrame	40	static
 ../source/ethernet/ethernet.c:147:6:ethernet_send	24	static

@@ -26,6 +26,7 @@ source/ethernet \
 source/gpio \
 source \
 source/nvic \
+source/pit \
 source/uart \
 startup \
 utilities \

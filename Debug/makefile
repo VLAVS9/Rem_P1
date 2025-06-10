@@ -11,6 +11,7 @@ RM := rm -rf
 -include utilities/subdir.mk
 -include startup/subdir.mk
 -include source/uart/subdir.mk
+-include source/pit/subdir.mk
 -include source/nvic/subdir.mk
 -include source/gpio/subdir.mk
 -include source/ethernet/subdir.mk

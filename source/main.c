@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <gpio/gpio.h>
 #include <nvic/nvic.h>
+#include <pit/pit.h>
 #include <uart/menu.h>
 #include <uart/uart.h>
 
@@ -29,14 +30,16 @@ int main(void) {
 	GPIO_init();
 	LED_init();
 	SW_init();
+	PIT_enable();
+	PIT0_init();
 	UART0_init();
 
     // Inicialización de callbacks
-    UART_callback_init(UART_0, menu_mostrar);
+	PIT_callback_init(PIT_0, menu_mostrar);
 
     // Configuración de prioridades de interrupción
     NVIC_set_basepri_threshold(PRIORITY_2);
-    NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_1);
+    NVIC_enable_interrupt_and_priotity(PIT_CH0_IRQ, PRIORITY_1);
     NVIC_global_enable_interrupts;
 
     menu_mostrar();
